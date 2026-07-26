@@ -1,3 +1,4 @@
 # Design Pattern (ref url)
-![Uploading Gemini_Generated_Image_63bdl263bdl263bd.png…]()
+<img width="2816" height="1536" alt="Design Pattern in SE" src="https://github.com/user-attachments/assets/df2be0f6-9d31-4ecd-b7ee-2381dbf4bc94" />
+
 - https://refactoring.guru/design-patterns
