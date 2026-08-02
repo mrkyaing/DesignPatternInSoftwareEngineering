@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structural Patterns: Adapter & Bridge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body class="min-h-screen">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="text-xl font-bold tracking-tight text-slate-800">
+                Pattern<span class="text-amber-600">Architect</span>
+            </div>
+            <div class="flex space-x-8">
+                <button onclick="showSection('overview')" id="nav-overview"
+                    class="nav-link py-5 px-1 transition-soft text-sm uppercase tracking-wider">Overview</button>
+                <button onclick="showSection('adapter')" id="nav-adapter"
+                    class="nav-link py-5 px-1 transition-soft text-sm uppercase tracking-wider">Adapter</button>
+                <button onclick="showSection('bridge')" id="nav-bridge"
+                    class="nav-link py-5 px-1 transition-soft text-sm uppercase tracking-wider">Bridge</button>
+                <button onclick="showSection('compare')" id="nav-compare"
+                    class="nav-link py-5 px-1 transition-soft text-sm uppercase tracking-wider">Comparison</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- SECTION: OVERVIEW -->
+        <section id="section-overview" class="tab-content">
+            <div class="max-w-3xl mb-12">
+                <h1 class="text-4xl font-bold mb-4">Structural Patterns</h1>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Structural design patterns explain how to assemble objects and classes into larger structures, while
+                    keeping these structures flexible and efficient. Here we explore two vital patterns: the
+                    <strong>Adapter</strong>, which mends existing incompatibilities, and the <strong>Bridge</strong>,
+                    which prevents future architectural rigidness.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-soft">
+                    <div
+                        class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-6 text-amber-700 font-bold">
+                        A</div>
+                    <h3 class="text-2xl font-bold mb-3">The Adapter</h3>
+                    <p class="text-slate-500 mb-6 italic">"Fixing the past."</p>
+                    <p class="text-slate-600 mb-6">Commonly used to make a legacy or third-party class work with your
+                        modern interface without changing the source code.</p>
+                    <button onclick="showSection('adapter')"
+                        class="text-amber-600 font-semibold hover:underline">Explore Adapter &rarr;</button>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-soft">
+                    <div
+                        class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6 text-indigo-700 font-bold">
+                        B</div>
+                    <h3 class="text-2xl font-bold mb-3">The Bridge</h3>
+                    <p class="text-slate-500 mb-6 italic">"Designing the future."</p>
+                    <p class="text-slate-600 mb-6">Designed up-front to decouple an abstraction from its implementation
+                        so that the two can vary independently.</p>
+                    <button onclick="showSection('bridge')"
+                        class="text-indigo-600 font-semibold hover:underline">Explore Bridge &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ADAPTER -->
+        <section id="section-adapter" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Adapter: The Wrapper</h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        In software development, you often find yourself with a library that does exactly what you need,
+                        but its interface is "wrong" for your system. The Adapter acts as a middleman that translates
+                        your calls into a language the library understands.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div
+                                class="mt-1 mr-4 h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 text-xs">
+                                ✓</div>
+                            <p class="text-slate-700"><strong>Single Responsibility:</strong> Separation of conversion
+                                from logic.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="mt-1 mr-4 h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 text-xs">
+                                ✓</div>
+                            <p class="text-slate-700"><strong>Open/Closed:</strong> Introduce new adapters without
+                                breaking clients.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
+                    <h4 class="text-center font-bold text-slate-400 uppercase tracking-widest text-xs mb-8">Interaction
+                        Simulator</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="relative flex items-center justify-center h-48 w-full">
+                            <div id="hole-vis" class="round-hole flex items-center justify-center">
+                                <div id="adapter-vis" class="adapter-ring"></div>
+                                <div id="peg-vis" class="square-peg transition-soft opacity-20"></div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <p id="adapter-status" class="text-sm font-medium text-red-500 mb-4">Error: SquarePeg cannot
+                                fit RoundHole.</p>
+                            <button id="btn-adapter" onclick="toggleAdapter()"
+                                class="bg-slate-800 text-white px-6 py-3 rounded-xl font-semibold hover:bg-slate-700 transition-soft">
+                                Attach Adapter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h5 class="font-bold mb-2">1. Client Interface</h5>
+                    <p class="text-sm text-slate-500">Defines the protocol that your application expects to use.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h5 class="font-bold mb-2">2. Service (Adaptee)</h5>
+                    <p class="text-sm text-slate-500">The 3rd party or legacy class with an incompatible interface.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h5 class="font-bold mb-2">3. Adapter</h5>
+                    <p class="text-sm text-slate-500">Implements the client interface while wrapping the service.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: BRIDGE -->
+        <section id="section-bridge" class="tab-content hidden">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-3xl font-bold mb-6">Bridge: Decoupling Hierarchies</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    The Bridge pattern is about avoiding the <strong>Class Explosion</strong>. Instead of creating a
+                    subclass for every combination of features, you split the dimensions into separate hierarchies.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="text-xl font-bold">Class Explosion Simulator</h3>
+                            <p class="text-sm text-slate-400">Comparing Inheritance vs. Bridge Pattern growth</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <label class="text-[10px] uppercase font-bold text-slate-400 block">Elements per Dimension</label>
+                                <input type="range" id="bridge-slider" min="2" max="10" value="4"
+                                    class="w-32 accent-amber-600" oninput="updateBridgeChart()" />
+                            </div>
+                            <span id="slider-val" class="text-xl font-bold text-amber-600 w-8">4</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="bridgeChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100">
+                        <h4 class="font-bold text-amber-800 mb-2">The Exponential Trap</h4>
+                        <p class="text-sm text-amber-700">With inheritance, if you have <strong>N</strong> shapes and
+                            <strong>M</strong> colors, you need <strong>N × M</strong> classes. Adding 1 shape requires
+                            adding M new subclasses.
+                        </p>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                        <h4 class="font-bold text-indigo-800 mb-2">The Bridge Solution</h4>
+                        <p class="text-sm text-indigo-700">By using composition, you only need <strong>N + M</strong>
+                            classes. Adding 1 shape only requires adding 1 class to the Shape hierarchy.</p>
+                    </div>
+                    <div class="p-4 border-l-4 border-slate-200">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-2">Example Case</p>
+                        <p class="text-sm text-slate-600">Building a system with 5 Devices and 4 Remote types.
+                            <br>Inheritance: <strong>20 classes</strong>.<br>Bridge: <strong>9 classes</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: COMPARE -->
+        <section id="section-compare" class="tab-content hidden">
+            <h2 class="text-3xl font-bold mb-10 text-center">Head-to-Head Comparison</h2>
+
+            <div class="overflow-hidden bg-white border border-slate-100 rounded-3xl shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-100">
+                        <tr>
+                            <th class="p-6 font-bold text-slate-400 uppercase text-xs tracking-widest">Aspect</th>
+                            <th class="p-6 font-bold text-amber-700">Adapter</th>
+                            <th class="p-6 font-bold text-indigo-700">Bridge</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <tr>
+                            <td class="p-6 font-bold text-sm">Primary Intent</td>
+                            <td class="p-6 text-slate-600 text-sm">Makes incompatible things work together.</td>
+                            <td class="p-6 text-slate-600 text-sm">Prevents code bloat by splitting hierarchies.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 font-bold text-sm">Application Time</td>
+                            <td class="p-6 text-slate-600 text-sm italic">Post-hoc (after code is written).</td>
+                            <td class="p-6 text-slate-600 text-sm italic">Design-time (up-front architecture).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 font-bold text-sm">Structure</td>
+                            <td class="p-6 text-slate-600 text-sm">Wraps an object.</td>
+                            <td class="p-6 text-slate-600 text-sm">Connects two abstractions via composition.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 font-bold text-sm">Complexity</td>
+                            <td class="p-6 text-slate-600 text-sm">Moderate; adds one layer.</td>
+                            <td class="p-6 text-slate-600 text-sm">High; requires abstracting dimensions.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-16 text-center">
+                <h3 class="text-xl font-bold mb-6">Decision Helper</h3>
+                <div class="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl">
+                        <p class="text-sm font-medium mb-4">"I have a 3rd party logging library that I can't change..."
+                        </p>
+                        <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold">Use
+                            Adapter</span>
+                    </div>
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl">
+                        <p class="text-sm font-medium mb-4">"I am designing a UI that works on both Windows and
+                            MacOS..."</p>
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold">Use
+                            Bridge</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 py-12 bg-slate-900 text-slate-400 text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-sm mb-4">Structural Patterns Interactive Explorer • Based on Refactoring Guru Principles</p>
+            <div class="flex justify-center space-x-4 opacity-50 text-xs">
+                <span>Composition > Inheritance</span>
+                <span>•</span>
+                <span>Decoupling</span>
+                <span>•</span>
+                <span>Wrappers</span>
+            </div>
+        </div>
+    </footer>
+    <script src="js/action.js"></script>
+</body>
+
+</html>
