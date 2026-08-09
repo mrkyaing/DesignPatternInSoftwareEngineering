@@ -10,7 +10,6 @@ document.getElementById("header").innerHTML=`
                 <a href="#">Categories</a>
             </nav>
             <div class="header-actions">
-                <button class="search-button">Search....</button>
                 <a href="login.html" class="login-button">Login</a>
             </div>
         </div>
