@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Vidhu Vinod Chopra",
+    "country": "India",
+    "bio": "Indian filmmaker and producer.",
+    "photo": "assets/images/producers/vidhu-vinod-chopra.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Tom Cruise",
+    "country": "USA",
+    "bio": "Thomas Cruise Mapother IV July 3, 1962 (age 64)",
+    "photo": "assets/images/producers/TomCruise.jpg"
+  }
+]

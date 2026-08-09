@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieReview - Movies</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="header"></div>
+<div class="site-layout">
+  <aside id="sidebar"></aside>
+  <main class="main-content">
+    <section class="page-header">
+      <div>
+        <span class="section-label">DISCOVER</span>
+        <h1>Movies</h1>
+        <p>Browse our collection of movies.</p>
+      </div>
+    </section>
+    <section class="filter-section">
+      <div class="search-box">
+        <input type="text" id="movie-search" placeholder="Search movies...">
+        <span>🔍</span>
+      </div>
+      <select id="genre-filter"><option value="all">All Genres</option></select>
+      <select id="sort-filter">
+        <option value="default">Sort By</option>
+        <option value="title-asc">Title A-Z</option>
+        <option value="title-desc">Title Z-A</option>
+        <option value="year-desc">Newest</option>
+        <option value="year-asc">Oldest</option>
+      </select>
+    </section>
+    <section class="content-section movies-page">
+      <div id="movie-count" class="movie-count"></div>
+      <div id="movies-container" class="movie-grid"></div>
+      <div id="no-results" class="no-results hidden">
+        <h2>No movies found</h2>
+        <p>Try changing your search or filter.</p>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="footer"></div>
+<script src="js/header.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/movie.js"></script>
+</body>
+</html>

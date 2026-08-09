@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Aamir Khan",
+    "gender": "Male",
+    "date_of_birth": "1965-03-14",
+    "bio": "Indian actor, filmmaker and producer.",
+    "profile_image": "assets/images/actors/AamirKhan.jpg"
+  },
+  {
+    "id": 2,
+    "name": "R. Madhavan",
+    "gender": "Male",
+    "date_of_birth": "1970-06-01",
+    "bio": "Indian actor and writer.",
+    "profile_image": "assets/images/actors/Madhavan.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Aamir Khan",
+    "gender": "Male",
+    "date_of_birth": "1965-03-14",
+    "bio": "Indian actor, filmmaker and producer.",
+    "profile_image": "assets/images/actors/TomCruise.jpg"
+  },
+  {
+    "id": 5,
+    "name": "R. Madhavan",
+    "gender": "Male",
+    "date_of_birth": "1970-06-01",
+    "bio": "Indian actor and writer.",
+    "profile_image": "assets/images/actors/Madhavan.jpg"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Comedy",
+    "slug": "comedy"
+  },
+  {
+    "id": 2,
+    "name": "Drama",
+    "slug": "drama"
+  },
+  {
+    "id": 3,
+    "name": "Action",
+    "slug": "action"
+  },
+  {
+    "id": 4,
+    "name": "Romance",
+    "slug": "romance"
+  },
+  {
+    "id": 5,
+    "name": "Thriller",
+    "slug": "thriller"
+  },
+  {
+    "id": 6,
+    "name": "Sci-Fi",
+    "slug": "sci-fi"
+  }
+]

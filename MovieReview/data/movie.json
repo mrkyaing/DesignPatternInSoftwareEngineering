@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "3 Idiots",
+    "slug": "3-idiots",
+    "short_description": "Three friends navigate college life, friendship, love and their dreams.",
+    "description": "3 Idiots is a comedy-drama film about three engineering students and their experiences at university.",
+    "release_date": "2009-12-25",
+    "runtime_minutes": 170,
+    "poster": "assets/images/movies/3_idiots_poster.jpg",
+    "backdrop": "assets/images/movies/3_idiots_poster.jpg",
+    "type": "movie",
+    "status": "released",
+    "producer_ids": [1],
+    "category_ids": [1, 2],
+    "actor_ids": [1, 2, 3]
+  },
+  {
+    "id": 2,
+    "title": "Mission: Impossible",
+    "slug": "Mission: Impossible",
+    "short_description": "Mission: Impossible is an American series of action spy films, based on the 1966 television series created by Bruce Geller.",
+    "description": "Mission: Impossible is an American series of action spy films, based on the 1966 television series created by Bruce Geller.",
+    "release_date": "2014-11-07",
+    "runtime_minutes": 169,
+    "poster": "assets/images/movies/mi.jpg",
+    "backdrop": "assets/images/movies/mi.jpg",
+    "type": "movie",
+    "status": "released",
+    "category_ids": [3, 4],
+    "producer_ids": [2],
+    "actor_ids": [4, 5]
+  }
+]
