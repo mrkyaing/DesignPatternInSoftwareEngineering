@@ -11,6 +11,7 @@ document.getElementById("header").innerHTML=`
             </nav>
             <div class="header-actions">
                 <a href="login.html" class="login-button">Login</a>
+                <a href="login.html" class="login-button">Logout</a>
             </div>
         </div>
     </header>

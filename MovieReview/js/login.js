@@ -1,9 +1,7 @@
-let allUsers = [];
 // Basic client-side validation
 async function validateForm() {
     const useremail = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
-
     if (useremail === "" || password === "") {
         alert("Please fill in all fields.");
         return false;
@@ -18,18 +16,20 @@ async function validateForm() {
 
 async function verifyUser(useremail, password) {
     try {
-        const userResponse = await fetch('../data/user.json');
+        const url = "../data/user.json";
+        const userResponse = await fetch(url);
         if (!userResponse.ok) {
-            throw new Error("Unable to load user.json");
+            throw new Error('unable to load user.json');
         }
-        //verify the process with user's input to user.json
-        var isValid = allUsers.filter((f) => f.user_email == useremail && f.password === password)
-        if (isValid) {
+        const allUsers = await userResponse.json();
+        const user = allUsers.find(f => f.user_email === useremail && f.password === password);
+        if (user) {
             window.location.href = "index.html";
         } else {
+            alert("Invalid email or password");
             window.location.href = "login.html";
         }
     } catch (error) {
-        console.error(error);
+        console.error("Error:", error);
     }
 }
