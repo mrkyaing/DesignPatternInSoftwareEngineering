@@ -24,8 +24,8 @@ async function verifyUser(useremail, password) {
         const allUsers = await userResponse.json();
         const user = allUsers.find(f => f.user_email === useremail && f.password === password);
         if (user) {
-            //store the user into localstorage
-            localStorage.setItem('loginUser', user);
+            // store the authenticated user into localStorage
+            localStorage.setItem('loginUser', JSON.stringify(user));
             window.location.href = "index.html";
         } else {
             alert("Invalid email or password");

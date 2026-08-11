@@ -38,8 +38,14 @@ function updateAuthButtons() {
     }
 }
 
+function formLoad() {
+    updateAuthButtons();
+}
+
 function logoutAction() {
     localStorage.removeItem('loginUser');
+    updateAuthButtons();
+    window.location.href = 'index.html';
 }
 
 if (document.readyState === 'loading') {
