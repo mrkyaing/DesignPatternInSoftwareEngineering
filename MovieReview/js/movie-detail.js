@@ -1,6 +1,5 @@
 async function loadMovieDetail() {
     const container = document.getElementById("movie-detail");
-
     if (!container) {
         return;
     }
@@ -8,40 +7,32 @@ async function loadMovieDetail() {
     try {
         const params = new URLSearchParams(window.location.search);
         const movieId = Number.parseInt(params.get("id"), 10);
-
         if (!Number.isInteger(movieId) || movieId <= 0) {
             showMovieError(container, "Movie ID was not provided.");
             return;
         }
-
         const [movieResponse, categoryResponse, reviewResponse] = await Promise.all([
             fetch("data/movie.json"),
             fetch("data/category.json"),
             fetch("data/review.json")
         ]);
-
         if (!movieResponse.ok) {
             throw new Error("Unable to load movie data.");
         }
-
         if (!categoryResponse.ok) {
             throw new Error("Unable to load category data.");
         }
-
         if (!reviewResponse.ok) {
             throw new Error("Unable to load review data.");
         }
-
         const movies = await movieResponse.json();
         const categories = await categoryResponse.json();
         const reviews = await reviewResponse.json();
         const movie = movies.find((item) => item.id === movieId);
-
         if (!movie) {
             showMovieError(container, "Movie not found.");
             return;
         }
-
         displayMovieDetail(container, movie, categories, reviews);
     } catch (error) {
         console.error("Movie detail load failed:", error);

@@ -1,15 +1,6 @@
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        if (
-            typeof loadMovies ===
-            "function"
-        ) {
-
+document.addEventListener("DOMContentLoaded",() => {
+        if (typeof loadMovies ==="function") {
             loadMovies();
-
         }
-
     }
 );

@@ -1,4 +1,4 @@
-document.getElementById("footer").innerHTML=`
+document.getElementById("footer").innerHTML =`
 <footer class="site-footer">
     <div class="footer-container">
         <div class="footer-column">
@@ -18,21 +18,11 @@ document.getElementById("footer").innerHTML=`
             <a href="#">Categories</a>
         </div>
         <div class="footer-column">
-            <h3>
-                Community
-            </h3>
-            <a href="login.html">
-                Login
-            </a>
-            <a href="#">
-                Register
-            </a>
-            <a href="#">
-                My Reviews
-            </a>
-            <a href="#">
-                About Us
-            </a>
+            <h3>Community</h3>
+            <a href="login.html">Login</a>
+            <a href="#">Register</a>
+            <a href="#">My Reviews</a>
+            <a href="#">About Us</a>
         </div>
     </div>
     <div class="footer-bottom">
