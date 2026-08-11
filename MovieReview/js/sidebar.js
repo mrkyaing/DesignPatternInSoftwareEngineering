@@ -23,13 +23,9 @@ highlightActiveSidebarLink();
 function highlightActiveSidebarLink() {
   const path = window.location.pathname.toLowerCase();
   const page = path.substring(path.lastIndexOf('/') + 1);
-
   document.querySelectorAll('#sidebar .sidebar-menu a').forEach(link => {
     const href = link.getAttribute('href');
-    const isActive =
-      href === page ||
-      (href === 'index.html' && (page === '' || page === 'index.html'));
-
+    const isActive =href === page ||(href === 'index.html' && (page === '' || page === 'index.html'));
     if (isActive) {
       link.classList.add('active');
     } else {
