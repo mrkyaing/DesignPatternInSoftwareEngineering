@@ -11,11 +11,13 @@ async function loadMovieDetail() {
             showMovieError(container, "Movie ID was not provided.");
             return;
         }
+
         const [movieResponse, categoryResponse, reviewResponse] = await Promise.all([
             fetch("data/movie.json"),
             fetch("data/category.json"),
             fetch("data/review.json")
         ]);
+
         if (!movieResponse.ok) {
             throw new Error("Unable to load movie data.");
         }
@@ -25,19 +27,147 @@ async function loadMovieDetail() {
         if (!reviewResponse.ok) {
             throw new Error("Unable to load review data.");
         }
+
         const movies = await movieResponse.json();
         const categories = await categoryResponse.json();
-        const reviews = await reviewResponse.json();
+        const storedReviews = getStoredMovieReviews();
+        const staticReviews = await reviewResponse.json();
+        const reviews = [...staticReviews, ...storedReviews];
         const movie = movies.find((item) => item.id === movieId);
+
         if (!movie) {
             showMovieError(container, "Movie not found.");
             return;
         }
+
         displayMovieDetail(container, movie, categories, reviews);
     } catch (error) {
         console.error("Movie detail load failed:", error);
         showMovieError(container, "Unable to load movie.");
     }
+}
+
+function getCurrentUser() {
+    const storedUser = localStorage.getItem("loginUser");
+    if (!storedUser) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(storedUser);
+    } catch (error) {
+        console.error("Invalid loginUser session:", error);
+        return null;
+    }
+}
+
+function getStoredMovieReviews() {
+    const storedReviews = localStorage.getItem("movieReviews");
+    if (!storedReviews) {
+        return [];
+    }
+
+    try {
+        const parsed = JSON.parse(storedReviews);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.error("Unable to read stored reviews:", error);
+        return [];
+    }
+}
+
+function getReviewFormMarkup(user, movieId, existingReview = null) {
+    if (!user) {
+        return `
+            <div class="review-login-prompt">
+                <p>Please <a href="login.html">log in</a> to review this movie.</p>
+            </div>
+        `;
+    }
+
+    const existingTitle = existingReview?.title || "";
+    const existingReviewText = existingReview?.review || "";
+    const existingRating = existingReview?.rating || 5;
+
+    return `
+        <form id="movie-review-form" class="review-form" data-movie-id="${movieId}">
+            <div class="review-form-row">
+                <label for="review-title">Review title</label>
+                <input id="review-title" name="title" type="text" value="${existingTitle}" placeholder="What did you think?" required>
+            </div>
+
+            <div class="review-form-row">
+                <label for="review-rating">Rating</label>
+                <select id="review-rating" name="rating" required>
+                    ${[5, 4, 3, 2, 1].map((value) => `
+                        <option value="${value}" ${Number(value) === Number(existingRating) ? "selected" : ""}>${value} star${value > 1 ? "s" : ""}</option>
+                    `).join("")}
+                </select>
+            </div>
+
+            <div class="review-form-row">
+                <label for="review-text">Your review</label>
+                <textarea id="review-text" name="review" rows="5" placeholder="Share your thoughts about this movie..." required>${existingReviewText}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">${existingReview ? "Update review" : "Submit review"}</button>
+        </form>
+    `;
+}
+
+function attachReviewFormHandler() {
+    const form = document.getElementById("movie-review-form");
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const user = getCurrentUser();
+        const movieId = Number.parseInt(form.dataset.movieId, 10);
+
+        if (!user || !Number.isInteger(movieId) || movieId <= 0) {
+            alert("Please log in before submitting a review.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const title = form.querySelector('[name="title"]').value.trim();
+        const reviewText = form.querySelector('[name="review"]').value.trim();
+        const rating = Number(form.querySelector('[name="rating"]').value);
+
+        if (!title || !reviewText || Number.isNaN(rating) || rating < 1 || rating > 5) {
+            alert("Please provide a valid title, rating, and review.");
+            return;
+        }
+
+        const storedReviews = getStoredMovieReviews();
+        const reviewPayload = {
+            id: Date.now(),
+            movie_id: movieId,
+            user_id: user.id,
+            username: user.user_name || user.user_email || "User",
+            rating,
+            title,
+            review: reviewText,
+            created_at: new Date().toISOString()
+        };
+
+        const existingReviewIndex = storedReviews.findIndex(
+            (review) => review.movie_id === movieId && review.user_id === user.id
+        );
+
+        if (existingReviewIndex >= 0) {
+            storedReviews[existingReviewIndex] = reviewPayload;
+        } else {
+            storedReviews.push(reviewPayload);
+        }
+
+        localStorage.setItem("movieReviews", JSON.stringify(storedReviews));
+        alert("Your review has been saved.");
+        window.location.reload();
+    });
 }
 
 /* =========================================================
@@ -51,9 +181,9 @@ function displayMovieDetail(container, movie, categories, reviews) {
     const averageRating = calculateAverageRating(movieReviews);
     const year = movie.release_date ? movie.release_date.substring(0, 4) : "";
     const heroBackground = movie.backdrop || movie.poster || "";
-
+    const currentUser = getCurrentUser();
+    const currentUserReview = currentUser? movieReviews.find((review) => review.user_id === currentUser.id): null;
     document.title = `MovieReview - ${movie.title}`;
-
     container.innerHTML = `
         <section class="movie-detail-hero" style="background-image: linear-gradient(rgba(17,17,17,0.7), rgba(17,17,17,0.9)), url('${heroBackground}'); background-size: cover; background-position: center;">
             <div class="movie-detail-content">
@@ -89,7 +219,14 @@ function displayMovieDetail(container, movie, categories, reviews) {
                 ? movieReviews.map((review) => createReviewCard(review)).join("")
                 : '<p>No reviews yet.</p>'}
         </section>
+
+        <section class="review-form-section">
+            <h2>${currentUser ? (currentUserReview ? "Your review" : "Leave a review") : "Login to review"}</h2>
+            ${getReviewFormMarkup(currentUser, movie.id, currentUserReview)}
+        </section>
     `;
+
+    attachReviewFormHandler();
 }
 
 /* =========================================================

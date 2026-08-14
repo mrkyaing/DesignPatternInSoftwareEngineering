@@ -18,13 +18,12 @@ async function verifyUser(useremail, password) {
     try {
         const url = "../data/user.json";
         const userResponse = await fetch(url);
-        if (!userResponse.ok) {
-            throw new Error('unable to load user.json');
-        }
-        const allUsers = await userResponse.json();
-        const user = allUsers.find(f => f.user_email === useremail && f.password === password);
+        const fileUsers = userResponse.ok ? await userResponse.json() : [];
+        const localUsers = JSON.parse(localStorage.getItem('movieReviewUsers') || '[]');
+        const allUsers = [...fileUsers, ...localUsers];
+        const user = allUsers.find(f => f.user_email?.toLowerCase() === useremail.toLowerCase() && f.password === password);
+
         if (user) {
-            // store the authenticated user into localStorage
             localStorage.setItem('loginUser', JSON.stringify(user));
             window.location.href = "index.html";
         } else {
@@ -33,5 +32,6 @@ async function verifyUser(useremail, password) {
         }
     } catch (error) {
         console.error("Error:", error);
+        alert("Unable to verify user right now.");
     }
 }

@@ -581,6 +581,63 @@ img {
     font-size: 14px
 }
 
+.review-form-section {
+    padding: 0 45px 45px
+}
+
+.review-form-section h2 {
+    margin-bottom: 18px
+}
+
+.review-form {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 22px;
+    display: grid;
+    gap: 18px
+}
+
+.review-form-row {
+    display: grid;
+    gap: 8px
+}
+
+.review-form-row label {
+    font-weight: 700;
+    color: #333
+}
+
+.review-form-row input,
+.review-form-row select,
+.review-form-row textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff
+}
+
+.review-form-row textarea {
+    min-height: 120px;
+    resize: vertical
+}
+
+.review-login-prompt {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+    color: #444
+}
+
+.review-login-prompt a {
+    color: #111;
+    text-decoration: underline;
+    font-weight: 700
+}
+
 .loading {
     padding: 100px;
     text-align: center;

@@ -15,11 +15,27 @@ function saveUsers(users) {
 function register() {
     const userName = document.getElementById('user_name')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
+    const password = document.getElementById('password')?.value.trim();
+    const confirm_password = document.getElementById('confirm-password')?.value.trim();
     const messageEl = document.getElementById('register-message');
 
-    if (!userName || !email) {
+    if (!userName || !email || !password) {
         if (messageEl) {
-            messageEl.textContent = 'Please enter your user name and email.';
+            messageEl.textContent = 'Please enter your user name, email, and password.';
+            messageEl.style.color = 'red';
+        }
+        return false;
+    }
+ if (password!==confirm_password) {
+        if (messageEl) {
+            messageEl.textContent = 'password and confrim password does not match.';
+            messageEl.style.color = 'red';
+        }
+        return false;
+    }
+    if (password.length < 6) {
+        if (messageEl) {
+            messageEl.textContent = 'Password must be at least 6 characters long.';
             messageEl.style.color = 'red';
         }
         return false;
@@ -51,11 +67,23 @@ function register() {
         id: Date.now(),
         user_name: userName,
         user_email: email,
-        password: ''
+        password: password
     };
 
     users.push(newUser);
     saveUsers(users);
+
+    try {
+        const existingFileUsers = JSON.parse(localStorage.getItem('movieReviewUsers') || '[]');
+        const mergedUsers = [...existingFileUsers];
+        const alreadyExists = mergedUsers.some((user) => user.user_email?.toLowerCase() === email.toLowerCase());
+        if (!alreadyExists) {
+            mergedUsers.push(newUser);
+            localStorage.setItem('movieReviewUsers', JSON.stringify(mergedUsers));
+        }
+    } catch (error) {
+        console.error('Unable to persist newly registered user to app storage:', error);
+    }
 
     if (messageEl) {
         messageEl.textContent = 'Registration successful!';
