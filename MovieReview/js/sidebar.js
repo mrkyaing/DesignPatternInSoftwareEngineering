@@ -7,7 +7,7 @@ document.getElementById("sidebar").innerHTML = `
       <li><a href="movie.html"><span>Movies</span></a></li>
       <li><a href="tv-show.html"><span>TV Shows</span></a></li>
       <li><a href="#"><span>Top Rated</span></a></li>
-      <li><a href="#"><span>Latest</span></a></li>
+      <li><a href="latest-tv-movie.html"><span>Latest</span></a></li>
     </ul>
   </div>
   <div class="sidebar-section">

@@ -1,5 +1,13 @@
 let allMovies = [];
 let allCategories = [];
+
+function getLatestMoviesByReleaseDate(limit = 6, items = allMovies) {
+    return [...items]
+        .filter((item) => item && item.release_date)
+        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+        .slice(0, limit);
+}
+
 /* =========================================================
    LOAD MOVIES
 ========================================================= */
@@ -30,7 +38,8 @@ const movieContainer =document.getElementById("movies-container");
         Home page
     */
     if (latestContainer) {
-        displayMovies(allMovies.slice(0, 6),latestContainer);
+        const latestMovies = getLatestMoviesByReleaseDate(6, allMovies);
+        displayMovies(latestMovies, latestContainer);
     }
     /*
         Movies page

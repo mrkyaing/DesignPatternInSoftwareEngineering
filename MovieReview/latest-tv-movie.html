@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MovieReview - Latest Movies and TV Shows">
+    <title>MovieReview - Latest Movies & TV Shows</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="site-layout">
+        <aside id="sidebar"></aside>
+
+        <main class="main-content">
+            <section class="page-header">
+                <div>
+                    <span class="section-label">NEW RELEASES</span>
+                    <h1>Latest Movies & TV Shows</h1>
+                    <p>Browse the newest content based on release date.</p>
+                </div>
+            </section>
+
+            <section class="content-section movies-page">
+                <div class="section-header">
+                    <div>
+                        <span class="section-label">EXPLORE</span>
+                        <h2>Newest Releases</h2>
+                    </div>
+                    <div id="latest-count" class="movie-count"></div>
+                </div>
+
+                <div id="latest-media-container" class="movie-grid"></div>
+                <div id="no-results" class="no-results hidden">
+                    <h2>No latest content found</h2>
+                    <p>Try again later.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="js/header.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/latest.js"></script>
+</body>
+</html>
