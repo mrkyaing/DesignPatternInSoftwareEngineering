@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieReview - Top Rated</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .top-rated-header {
+            padding: 32px 32px 0;
+        }
+
+        .top-rated-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 18px;
+            padding: 24px 32px 0;
+        }
+
+        .summary-item {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .summary-item span {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .summary-item strong {
+            font-size: 28px;
+            color: #111;
+        }
+
+        .top-rated-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+            padding: 28px 32px 32px;
+        }
+
+        .top-rated-card {
+            position: relative;
+            border: 1px solid #ececec;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .top-rated-rank {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #f5c518;
+            color: #111;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 6px 18px rgba(245, 197, 24, 0.35);
+        }
+
+        .top-rated-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .top-rated-stars {
+            color: #f5c518;
+            letter-spacing: 1px;
+        }
+
+        .top-rated-card .movie-poster-wrapper {
+            height: 300px;
+        }
+
+        .top-rated-card .movie-poster {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .top-rated-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .top-rated-header,
+            .top-rated-summary,
+            .top-rated-grid {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="site-layout">
+        <aside id="sidebar"></aside>
+
+        <main class="main-content">
+            <section class="page-header top-rated-header">
+                <div>
+                    <span class="section-label">COMMUNITY PICKS</span>
+                    <h1>Top Rated</h1>
+                    <p>Movies ranked by the ratings users leave on each title.</p>
+                </div>
+            </section>
+
+            <section class="top-rated-summary">
+                <div class="summary-item">
+                    <span>Movies ranked</span>
+                    <strong id="top-rated-count">0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Reviewed</span>
+                    <strong id="top-rated-reviewed">0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Total reviews</span>
+                    <strong id="top-rated-total-reviews">0</strong>
+                </div>
+            </section>
+
+            <section class="filter-section">
+                <div class="search-box">
+                    <input type="text" id="top-rated-search" placeholder="Search top-rated movies...">
+                    <span>🔍</span>
+                </div>
+                <select id="top-rated-genre-filter">
+                    <option value="all">All Genres</option>
+                </select>
+                <select id="top-rated-sort-filter">
+                    <option value="rating-desc">Highest Rated</option>
+                    <option value="rating-asc">Lowest Rated</option>
+                    <option value="reviews-desc">Most Reviews</option>
+                    <option value="title-asc">Title A-Z</option>
+                    <option value="title-desc">Title Z-A</option>
+                </select>
+            </section>
+
+            <section class="content-section">
+                <div id="top-rated-container" class="top-rated-grid"></div>
+                <div id="top-rated-no-results" class="no-results hidden">
+                    <h2>No top-rated movies found</h2>
+                    <p>Try changing your search or filter.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="js/header.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/top-rated.js"></script>
+</body>
+</html>

@@ -1,13 +1,11 @@
 let allMovies = [];
 let allCategories = [];
-
 function getLatestMoviesByReleaseDate(limit = 6, items = allMovies) {
     return [...items]
         .filter((item) => item && item.release_date)
         .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
         .slice(0, limit);
 }
-
 /* =========================================================
    LOAD MOVIES
 ========================================================= */
@@ -124,10 +122,7 @@ function populateGenreFilter() {
    SIDEBAR GENRES
 ========================================================= */
 function populateSidebarGenres() {
-    const container =
-        document.getElementById(
-            "sidebar-genres"
-        );
+    const container =document.getElementById("sidebar-genres");
     if (!container) {
         return;
     }
@@ -140,13 +135,7 @@ function populateSidebarGenres() {
         ${
             allCategories.map(category => {
                 return `
-                    <li>
-                        <a
-                            href="movie.html?genre=${category.id}"
-                        >
-                            ${category.name}
-                        </a>
-                    </li>
+                    <li><a href="movie.html?genre=${category.id}">${category.name}</a></li>
                 `;
             }).join("")
         }
@@ -199,7 +188,10 @@ function applyMovieFilters() {
     */
     if (genre !== "all") {
         const genreId =Number(genre);
-        filteredMovies =filteredMovies.filter(movie => {return movie.category_ids.includes(genreId);});
+        filteredMovies =filteredMovies.filter(movie => {
+            const categoryIds = Array.isArray(movie?.category_ids) ? movie.category_ids : [];
+            return categoryIds.includes(genreId);
+        });
     }
     /*
         SORT

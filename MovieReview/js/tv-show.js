@@ -1,18 +1,15 @@
 let tvShows = [];
 let allCategories = [];
-
 async function loadTvShows() {
     try {
         const tvResponse = await fetch('../data/movie.json');
         const categoryResponse = await fetch('../data/category.json');
-
         if (!tvResponse.ok) {
             throw new Error('Unable to load movie.json');
         }
         if (!categoryResponse.ok) {
             throw new Error('Unable to load category.json');
         }
-
         const allItems = await tvResponse.json();
         allCategories = await categoryResponse.json();
         const tvTypes = ['tv', 'tv show', 'series'];
@@ -20,7 +17,6 @@ async function loadTvShows() {
             const type = item.type ? item.type.toLowerCase().trim() : '';
             return tvTypes.includes(type);
         });
-
         initializeTvPage();
     } catch (error) {
         console.error(error);
@@ -29,14 +25,12 @@ async function loadTvShows() {
 
 function initializeTvPage() {
     const tvListContainer = document.getElementById('tv-shows-container');
-
     if (tvListContainer) {
         populateGenreFilter();
         displayTvShows(tvShows, tvListContainer);
         updateTvShowCount(tvShows.length);
         setupTvFilters();
     }
-
     populateSidebarGenres();
 }
 
@@ -44,7 +38,6 @@ function displayTvShows(shows, container) {
     if (!container) {
         return;
     }
-
     container.innerHTML = shows.map(show => createTvCard(show)).join('');
 }
 
@@ -81,7 +74,6 @@ function populateGenreFilter() {
     if (!select) {
         return;
     }
-
     select.innerHTML = `
         <option value="all">All Genres</option>
         ${allCategories.map(category => `
@@ -112,7 +104,6 @@ function setupTvFilters() {
     const searchInput = document.getElementById('movie-search');
     const genreFilter = document.getElementById('genre-filter');
     const sortFilter = document.getElementById('sort-filter');
-
     if (searchInput) {
         searchInput.addEventListener('input', applyTvFilters);
     }
@@ -122,7 +113,6 @@ function setupTvFilters() {
     if (sortFilter) {
         sortFilter.addEventListener('change', applyTvFilters);
     }
-
     const params = new URLSearchParams(window.location.search);
     const genre = params.get('genre');
     if (genre && genreFilter) {
@@ -138,37 +128,26 @@ function applyTvFilters() {
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
     const genre = genreFilter ? genreFilter.value : 'all';
     const sort = sortFilter ? sortFilter.value : 'default';
-
     let filteredShows = [...tvShows];
-
     if (searchTerm) {
         filteredShows = filteredShows.filter(show => show.title.toLowerCase().includes(searchTerm));
     }
-
     if (genre !== 'all') {
         const genreId = Number(genre);
-        filteredShows = filteredShows.filter(show => show.category_ids.includes(genreId));
+        filteredShows = filteredShows.filter(show => {
+            const categoryIds = Array.isArray(show?.category_ids) ? show.category_ids : [];
+            return categoryIds.includes(genreId);
+        });
     }
-
     switch (sort) {
-        case 'title-asc':
-            filteredShows.sort((a, b) => a.title.localeCompare(b.title));
-            break;
-        case 'title-desc':
-            filteredShows.sort((a, b) => b.title.localeCompare(a.title));
-            break;
-        case 'year-desc':
-            filteredShows.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
-            break;
-        case 'year-asc':
-            filteredShows.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
-            break;
+        case 'title-asc':filteredShows.sort((a, b) => a.title.localeCompare(b.title));break;
+        case 'title-desc':filteredShows.sort((a, b) => b.title.localeCompare(a.title));break;
+        case 'year-desc':filteredShows.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));break;
+        case 'year-asc':filteredShows.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));break;
     }
-
     const container = document.getElementById('tv-shows-container');
     displayTvShows(filteredShows, container);
     updateTvShowCount(filteredShows.length);
-
     const noResults = document.getElementById('no-results');
     if (noResults) {
         noResults.classList.toggle('hidden', filteredShows.length !== 0);

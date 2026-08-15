@@ -71,13 +71,8 @@ async function loadLatestMedia() {
         if (!response.ok) {
             throw new Error("Unable to load movie.json");
         }
-
         const allMedia = await response.json();
-        const latestMedia = getLatestMediaByReleaseDate(
-            allMedia.filter((item) => item.type === "movie" || item.type === "tv"),
-            12
-        );
-
+        const latestMedia = getLatestMediaByReleaseDate(allMedia.filter((item) => item.type === "movie" || item.type === "tv"),12);
         displayLatestMedia(latestMedia);
     } catch (error) {
         console.error("Latest media load failed:", error);
