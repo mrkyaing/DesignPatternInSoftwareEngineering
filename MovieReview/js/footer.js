@@ -21,7 +21,7 @@ document.getElementById("footer").innerHTML =`
         <div class="footer-column">
             <h3>Community</h3>
             <a href="#">My Reviews</a>
-            <a href="#">About Us</a>
+            <a href="about-us.html">About Us</a>
         </div>
     </div>
     <div class="footer-bottom">
