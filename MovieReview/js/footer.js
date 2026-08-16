@@ -13,14 +13,13 @@ document.getElementById("footer").innerHTML =`
             <h3>Explore</h3>
             <a href="index.html">Home</a>
             <a href="movie.html">Movies</a>
-            <a href="#">TV Shows</a>
+            <a href="tv-show.html">TV Shows</a>
+            <a href="top-rated.html">Top Rated TV/Movie</a>
             <a href="#">Actors</a>
             <a href="#">Categories</a>
         </div>
         <div class="footer-column">
             <h3>Community</h3>
-            <a href="login.html">Login</a>
-            <a href="#">Register</a>
             <a href="#">My Reviews</a>
             <a href="#">About Us</a>
         </div>

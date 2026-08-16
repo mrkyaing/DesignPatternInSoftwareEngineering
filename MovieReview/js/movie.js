@@ -21,6 +21,11 @@ async function loadMovies() {
         }
         allMovies =await movieResponse.json();
         allCategories =await categoryResponse.json();
+        const tvTypes = ['movie'];
+        allMovies = allMovies.filter(item => {
+            const type = item.type ? item.type.toLowerCase().trim() : '';
+            return tvTypes.includes(type);
+        });
         initializeMoviePage();
     } catch (error) {
         console.error(error);
