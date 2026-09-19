@@ -1,20 +1,21 @@
 const G = 6.67430e-11;
 const earthMass = 5.9722e24;
 const earthRadius = 6_371_000;
+// DOM from the index html page
 const canvas = document.getElementById('orbit');
 const ctx = canvas.getContext('2d');
-// DOM for index file
 const altitudeInput = document.getElementById('altitude');
 const speedInput = document.getElementById('speed');
 const toggle = document.getElementById('toggle');
 let angle = -Math.PI / 2;
 let running = true;
 let lastTime = 0;
-
+// Calculate orbital quantities based on the current altitude input.
 function quantities() {
     const altitude = Number(altitudeInput.value) * 1000;
     const r = earthRadius + altitude;
     const velocity = Math.sqrt(G * earthMass / r);
+    //find the force and period of the satellite orbiting the Earth
     const force = (G * earthMass) / (r ** 2);
     const period = 2 * Math.PI * Math.sqrt(r ** 3 / (G * earthMass));
     document.getElementById('altitudeLabel').textContent = `${altitude / 1000} km`;
@@ -23,7 +24,7 @@ function quantities() {
     document.getElementById('period').textContent = period < 7200? `${(period / 60).toFixed(1)} minutes`: `${(period / 3600).toFixed(1)} hours`;
     return { r, period, velocity, force };
 }
-
+// Draw the Earth, satellite, and force arrows on the canvas.
 function draw(time) {
     const dpr = window.devicePixelRatio || 1;
     const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -44,18 +45,32 @@ function draw(time) {
     
     // Cap Earth's drawn size so both force arrows remain readable at low altitude.
     const earthVisualRadius = Math.min(orbitRadius * 0.62, Math.max(28, orbitRadius * earthRadius / r));
-    ctx.strokeStyle = '#7196c7'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.arc(cx, cy, orbitRadius, 0, 2 * Math.PI); ctx.stroke();
-    
+    ctx.strokeStyle = '#7196c7'; 
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); 
+    ctx.arc(cx, cy, orbitRadius, 0, 2 * Math.PI); 
+    ctx.stroke();
+    // Draw Earth with a radial gradient to give it a spherical appearance. 
     const earth = ctx.createRadialGradient(cx - earthVisualRadius * .3, cy - earthVisualRadius * .3, 2, cx, cy, earthVisualRadius);
-    earth.addColorStop(0, '#59c3ec'); earth.addColorStop(0.65, '#2572bc'); earth.addColorStop(1, '#123c78');
-    ctx.fillStyle = earth; ctx.beginPath(); ctx.arc(cx, cy, earthVisualRadius, 0, 2 * Math.PI); ctx.fill();
-    ctx.font = '16px system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff';
+    earth.addColorStop(0, '#59c3ec'); 
+    earth.addColorStop(0.65, '#2572bc'); 
+    earth.addColorStop(1, '#123c78');
+    ctx.fillStyle = earth; 
+    ctx.beginPath(); 
+    ctx.arc(cx, cy, earthVisualRadius, 0, 2 * Math.PI); 
+    ctx.fill();
+    ctx.font = '16px system-ui'; 
+    ctx.textAlign = 'center'; 
+    ctx.fillStyle = '#ffffff';
     ctx.fillText('Earth', cx, cy + 5);
-    
+    // Draw the satellite as a small circle with its velocity and gravity arrows.
     const sx = cx + orbitRadius * Math.cos(angle), sy = cy + orbitRadius * Math.sin(angle);
-    ctx.fillStyle = '#ffd67a'; ctx.beginPath(); ctx.arc(sx, sy, 8, 0, 2 * Math.PI); ctx.fill();
-    ctx.fillStyle = '#edf4ff'; ctx.font = '13px system-ui';
+    ctx.fillStyle = '#ffd67a'; 
+    ctx.beginPath(); 
+    ctx.arc(sx, sy, 8, 0, 2 * Math.PI); 
+    ctx.fill();
+    ctx.fillStyle = '#edf4ff'; 
+    ctx.font = '13px system-ui';
     ctx.fillText('Satellite', sx, sy - 17);
     ctx.fillStyle = '#9ce3ff';
     ctx.fillText(`v = ${(velocity / 1000).toFixed(2)} km/s`, sx + 12, sy + 18);
@@ -66,7 +81,9 @@ function draw(time) {
     ctx.strokeStyle = '#ffd67a'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - tx * 9 - ty * 5, ey - ty * 9 + tx * 5);
-    ctx.moveTo(ex, ey); ctx.lineTo(ex - tx * 9 + ty * 5, ey - ty * 9 - tx * 5); ctx.stroke();
+    ctx.moveTo(ex, ey); 
+    ctx.lineTo(ex - tx * 9 + ty * 5, ey - ty * 9 - tx * 5); 
+    ctx.stroke();
     
     // Gravity always points from the satellite toward Earth's center.
     const gx = -Math.cos(angle), gy = -Math.sin(angle);
@@ -85,8 +102,10 @@ function draw(time) {
     ctx.fillText(`F = ${(force / 1000).toFixed(2)} kN`, sx + gx * gravityLength * .55, sy + gy * gravityLength * .55 - 25);
     requestAnimationFrame(draw);
 }
+// Toggle the animation state between running and paused when the button is clicked.
 toggle.addEventListener('click', () => { 
     running = !running; 
     toggle.textContent = running ? 'Pause' : 'Play'; 
 });
+// Start the animation loop.
 requestAnimationFrame(draw);
